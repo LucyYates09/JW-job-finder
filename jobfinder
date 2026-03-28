@@ -1,0 +1,74 @@
+index.html
+<div style="font-family:Arial,sans-serif; max-width:600px; margin:auto;">
+  <h2 style="color:#222; font-size:24px; font-weight:bold; margin-bottom:20px;">🚀 Start Your Job Search</h2>
+
+  <label for="jobTitle" style="font-weight:bold;">Job Title:</label><br>
+  <input id="jobTitle" type="text" placeholder="e.g. Product Manager" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;"><br>
+
+  <label style="font-weight:bold;">Quick Suggestions:</label><br>
+  <div style="margin-bottom:10px;">
+    <button onclick="fillJob('Product Manager')" style="margin:2px; padding:6px 12px; border:none; background:#1a73e8; color:white; border-radius:4px;">Product Manager</button>
+    <button onclick="fillJob('UI/UX Designer')" style="margin:2px; padding:6px 12px; border:none; background:#1a73e8; color:white; border-radius:4px;">UI/UX Designer</button>
+    <button onclick="fillJob('Data Analyst')" style="margin:2px; padding:6px 12px; border:none; background:#1a73e8; color:white; border-radius:4px;">Data Analyst</button>
+    <button onclick="fillJob('Software Engineer')" style="margin:2px; padding:6px 12px; border:none; background:#1a73e8; color:white; border-radius:4px;">Software Engineer</button>
+  </div>
+
+  <label for="location" style="font-weight:bold;">Location (optional):</label><br>
+  <input id="location" type="text" placeholder="e.g. New York" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;"><br>
+
+  <label style="font-weight:bold;">Popular Cities:</label><br>
+  <div style="margin-bottom:10px;">
+    <button onclick="fillLocation('New York')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">New York</button>
+    <button onclick="fillLocation('San Francisco')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">San Francisco</button>
+    <button onclick="fillLocation('Palo Alto')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">Palo Alto</button>
+    <button onclick="fillLocation('Austin')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">Austin</button>
+    <button onclick="fillLocation('Seattle')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">Seattle</button>
+    <button onclick="fillLocation('Remote')" style="margin:2px; padding:6px 12px; background:#e8f0fe; color:#1a73e8; border:none; border-radius:4px;">Remote</button>
+  </div>
+
+  <label for="atsSelect" style="font-weight:bold;">Select ATS Platform:</label><br>
+  <select id="atsSelect" style="width:100%; padding:10px; margin-bottom:20px; border:1px solid #ccc; border-radius:4px;">
+    <option value="">-- Select ATS --</option>
+    <option value="site:boards.greenhouse.io">🟩 Greenhouse</option>
+    <option value="site:ashbyhq.com">🟪 Ashbyqh</option>
+    <option value="site:myworkdayjobs.com">🟦 Workday</option>
+    <option value="site:jobs.lever.co">⚫ Lever</option>
+    <option value="site:indeed.com">🟧 Indeed</option>
+    <option value="site:icims.com">🟥 iCIMS</option>
+    <option value="site:workable.com">🟨 Workable</option>
+  </select>
+
+  <button onclick="generateSearch()" style="padding:12px 24px; font-weight:bold; background:#1a73e8; color:white; border:none; border-radius:6px; font-size:16px;">Search on Google 🔍</button>
+  <p id="preview" style="margin-top:20px; color:#555;"></p>
+</div>
+
+<script>
+  function fillJob(title) {
+    document.getElementById('jobTitle').value = title;
+  }
+
+  function fillLocation(city) {
+    document.getElementById('location').value = city;
+  }
+
+  function generateSearch() {
+    const title = document.getElementById('jobTitle').value.trim();
+    const location = document.getElementById('location').value.trim();
+    const site = document.getElementById('atsSelect').value;
+
+    if (!title || !site) {
+      alert("Please enter a job title and select an ATS platform.");
+      return;
+    }
+
+    const queryParts = [site, `"${title}"`];
+    if (location) queryParts.push(`"${location}"`);
+
+    const fullQuery = queryParts.join(" ");
+    const encoded = encodeURIComponent(fullQuery);
+    const url = `https://www.google.com/search?q=${encoded}`;
+
+    document.getElementById("preview").innerText = `Search link: ${url}`;
+    window.open(url, '_blank');
+  }
+</script>
